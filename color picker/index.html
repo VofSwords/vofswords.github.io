@@ -73,7 +73,7 @@
       $("#result")[0].value = Placeholder;
       function hexFromRGB(r, g, b) {
         return Array.from(arguments).reduce((acc, val) => {
-          const str = val.toString(16);
+          const str = (+val).toString(16);
           if (str.length === 1) {
             return acc += "0" + str;
           } else {
@@ -85,28 +85,28 @@
       function getCurrentMode() {
         return $('input[name="mode"]:checked').val();
       };
-      function refreshResult(e) {
+      function refreshResult() {
         const red = $( "#red" ).slider( "value" ),
           green = $( "#green" ).slider( "value" ),
           blue = $( "#blue" ).slider( "value" ),
           hex = hexFromRGB( red, green, blue );
         const property = getCurrentMode() === "1" ? "background-color" : "color";
         const mode = getCurrentMode() === "1" ? "background" : "color";
-        const target = e.target.id;
-        const targetValue = {red, green, blue}[target];
-
         $( "#result" ).css( property, "#" + hex );
-        $(`#${mode}-${target}`).val(targetValue);
+        $(`#${mode}-red`).val(red);
+        $(`#${mode}-green`).val(green);
+        $(`#${mode}-blue`).val(blue);
       };
       function onChangeRadio() {
         const mode = getCurrentMode() === "1" ? "background" : "color";
-        const red = $(`#${mode}-red`),
-          green = $(`#${mode}-green`),
-          blue = $(`#${mode}-blue`);
+        const red = $(`#${mode}-red`).val() ,
+          green = $(`#${mode}-green`).val() ,
+          blue = $(`#${mode}-blue`).val() ;
+        
 
-        $( "#red" ).slider( "value", red.val() );
-        $( "#green" ).slider( "value", green.val() );
-        $( "#blue" ).slider( "value", blue.val() );
+        $( "#red" ).slider( "value", red );
+        $( "#green" ).slider( "value", green );
+        $( "#blue" ).slider( "value", blue);
       };
   
       $( "#red, #green, #blue" ).slider({
@@ -124,9 +124,9 @@
 
       const property = getCurrentMode() === "1" ? "color" : "background-color";
       const mode = getCurrentMode() === "1" ? "color" : "background";
-      const red = $(`#${mode}-red`),
-          green = $(`#${mode}-green`),
-          blue = $(`#${mode}-blue`);
+      const red = $(`#${mode}-red`).val() ,
+          green = $(`#${mode}-green`).val() ,
+          blue = $(`#${mode}-blue`).val() ;
       const hex = hexFromRGB( red, green, blue );
 
       onChangeRadio();
